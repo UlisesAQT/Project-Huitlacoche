@@ -10,10 +10,10 @@ function App() {
     <>
       <div className="App">
         <Header />
-        <Container className="mt-4">
+        <div className="mt-4">
           <h2> Food inventory </h2>
           <FoodList />
-        </Container>
+        </div>
       </div>
     </>
   );
