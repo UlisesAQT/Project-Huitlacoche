@@ -1,19 +1,18 @@
-import {Row, Col} from 'reactstrap';
 import FoodCard from './Food/foodCard';
 import {FOOD} from '../App/testData.jsx'
 import FoodGrid from './Food/foodGrid'
+import { useSelector } from 'react-redux';
 
 const FoodList = () => {
+    const foodData = useSelector(state => state.inventory);
+
     return (
-        <FoodGrid foodData={ FOOD } />
-    )
+        <div className='foodGrid'>
+            {foodData.map(item => (
+                <FoodCard key={item.id} food={item}  />
+            ))}
+        </div>
+    );
 };
 export default FoodList;
 
-{/* <Row>
-            {FOOD.map((foodItem) => (
-                <Col md='4' className='mb-4' key={foodItem.id}>
-                    <FoodCard food={foodItem} />
-                </Col>
-            ))}
-        </Row> */}

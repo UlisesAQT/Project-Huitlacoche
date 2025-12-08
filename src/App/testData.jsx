@@ -47,5 +47,13 @@ export const FOOD = [
         category: 'Frozen',
         cost: 75,
         brand: 'us foods'
-    }
+    },
+    {
+          id: 6,
+        name: 'chicken',
+        quantity: 5,
+        category: 'Frozen',
+        cost: 75,
+        brand: 'us foods'
+    },
 ]

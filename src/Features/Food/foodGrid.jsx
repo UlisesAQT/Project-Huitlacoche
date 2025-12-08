@@ -7,7 +7,7 @@ const FoodGrid = ({ foodData }) => {
     return (
         <div className='foodGrid'> 
             {foodData.map(food =>(
-                <FoodCard key={food.id} food={food} />
+                <FoodCard key={food.id} food={food} dispatch={dispatch} />
             ))}
         </div>
     )
