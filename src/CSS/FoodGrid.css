@@ -7,6 +7,10 @@
     box-sizing: border-box;
 
 }
+button {
+  border-radius: 50px; /* something needs to be fixed */
+  border: none;
+}
  /* .foodGrid {
   display: grid;
   gap: 1rem;
