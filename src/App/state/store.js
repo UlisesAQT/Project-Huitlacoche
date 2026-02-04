@@ -1,9 +1,9 @@
 import {configureStore} from '@reduxjs/toolkit';
-import  InventoryReducer  from './inventorySlice';
+import foodSlice from './foodSlice'
 
 
 export const store = configureStore({
     reducer: {
-        inventory: InventoryReducer
+       food : foodSlice
     }
 });

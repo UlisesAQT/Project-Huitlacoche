@@ -1,16 +1,18 @@
 import FoodCard from './Food/foodCard';
-import {FOOD} from '../App/testData.jsx'
-import FoodGrid from './Food/foodGrid'
 import { useSelector } from 'react-redux';
 
 const FoodList = () => {
-    const foodData = useSelector(state => state.inventory);
+    const foodData = useSelector(state => state.food.food);
 
     return (
         <div className='foodGrid'>
-            {foodData.map(item => (
-                <FoodCard key={item.id} food={item}  />
-            ))}
+            {foodData.length > 0 ? (
+                foodData.map(item => (
+                    <FoodCard key={item.id} food={item} />
+                ))
+            ) : (
+                <p className="text-center">No food found. Checking the pantry...</p>
+            )}
         </div>
     );
 };

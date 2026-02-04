@@ -1,8 +1,8 @@
 //import { Card, CardImg, CardText, CardBody, Col, CardImgOverlay, CardTitle} from 'reactstrap';
 import { useDispatch } from 'react-redux';
-import { addFood, removeFood, updateFood } from '../../App/state/inventorySlice';
+import { fetchFood } from '../../App/state/foodSlice';
 import { nanoid } from '@reduxjs/toolkit';
-import { Button } from 'bootstrap';
+import { Button } from 'reactstrap';
 
 const FoodCard = ({food}) => {
     const { name, quantity, category, cost, brand } = food;
@@ -18,12 +18,12 @@ const FoodCard = ({food}) => {
     //     }));
     // }
         
-    const handleRemoveFood = () => {
-        dispatch(removeFood({
-            id: food.id,
-            amount: 1
-        }));
-    }
+    // const handleRemoveFood = () => {
+    //     dispatch(removeFood({
+    //         id: food.id,
+    //         amount: 1
+    //     }));
+    // }
 
 
     return (
@@ -31,9 +31,9 @@ const FoodCard = ({food}) => {
         <div className='food-info'>
            <h3 className='food-name ms-5'>{name}</h3> 
            <p><strong>Category:</strong> {category}</p>
-           <p className='ms-4'> <button> -</button>  <strong> Quantity:</strong>  {quantity} <button>+</button></p>
            <p><strong>Cost:</strong> {cost}</p>
            <p><strong>Brand:</strong> {brand}</p>
+           <p className='ms-4'> <button> -</button>  <strong> Quantity:</strong>  {quantity} <button>+</button></p>
            
         </div>
         
