@@ -5,7 +5,7 @@ const initialState = {
   isLoading: false,
   error: null,
 };
-
+// this is for the server fetching the API
 export const fetchFood = createAsyncThunk(
   "food/fetchFood",
   async (arg, thunkApi) => {
@@ -33,7 +33,7 @@ export const fetchFood = createAsyncThunk(
 //     }
 // )
 
-// this is the re written one
+// this is the state for modal adding food
 export const addFood = createAsyncThunk(
   "food/addFood",
   async (newFood, thunkApi) => {
@@ -45,7 +45,7 @@ export const addFood = createAsyncThunk(
       });
 
       if (!response.ok) {
-        throw new Error("didnt work");
+        throw new Error("Something went wrong, please try again");
       }
       const data = await response.json();
       return data;

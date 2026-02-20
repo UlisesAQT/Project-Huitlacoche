@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import FoodCard from './Food/foodCard';
 import { useSelector } from 'react-redux';
+import AddFoodModal from '../Components/addModal';
 
 
 const FoodList = () => {
@@ -19,7 +20,7 @@ const FoodList = () => {
                 <p className="text-center">No food found. Checking the pantry...</p>
             )}
         </div>
-        {modalOpen && <AddFoodModal  onClose= {() => setModalOpen(false)} />}
+        {modalOpen && <AddFoodModal  modalOpen={modalOpen} setModalOpen={setModalOpen} />}
          </>
     );
 };

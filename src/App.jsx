@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {fetchFood} from '../src/App/state/foodSlice.js'
 import { useEffect } from "react";
 
+
 function App() {
   const dispatch = useDispatch();
   const foodData = useSelector(state => state.food.food);
