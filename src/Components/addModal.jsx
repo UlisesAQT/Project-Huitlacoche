@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addFood } from "../App/state/foodSlice";
 
-//need to look and fix all of this
+
 
 const AddFoodModal = ({ modalOpen, setModalOpen }) => {
   const dispatch = useDispatch();
@@ -67,30 +67,32 @@ const AddFoodModal = ({ modalOpen, setModalOpen }) => {
       </ModalHeader>
       <ModalBody>
         {formError && <div className="error-message">{formError}</div>}
-        <form onSubmit={handleSubmit}>
-          <label>
-            Name:
+        <form onSubmit={handleSubmit} className="form">
+          <label className="form-field">
+            <span className="label-text">Name:</span>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
+              className="form-input"
               required
             />
           </label>
-          <label>
-            Quantity:
+          <label className="form-field">
+             <span className="label-text">Quantity:</span> 
             <input
               type="number"
               name="quantity"
               value={formData.quantity}
               onChange={handleChange}
+              className="form-input"
               min='0'
               required
             />
           </label>
-          <label>
-            category:
+          <label className="form-field">
+              <span className="label-text">Category:</span>  
             <select
               name="category"
               value={formData.category}
@@ -102,28 +104,30 @@ const AddFoodModal = ({ modalOpen, setModalOpen }) => {
               <option value="frozen">Frozen</option>
             </select>
           </label>
-          <label>  
-            Cost:
+          <label className="form-field">  
+             <span className="label-text">Cost:</span>
             <input
               type="number"
-              name="cost" // fix this by allowing fractional costs 
+              name="cost" 
               value={formData.cost}
               onChange={handleChange}
+              className="form-input"
               step='0.01'
               min='0'
               required
             /> 
           </label>
-          <label>
-            Brand:
+          <label className="form-field">
+            <span className="label-text">Brand:</span> 
             <input
               type="text"
               name="brand"
               value={formData.brand}
               onChange={handleChange}
+              className="form-input"
             />
           </label>
-          <button type="submit">Submit</button>
+          <button type="submit" className="submit-btn">Submit</button>
         </form>
       </ModalBody>
 
