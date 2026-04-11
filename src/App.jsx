@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { Routes, Route } from 'react-router-dom';
 import FoodInventoryPage from './Pages/FoodInventoryPage.jsx'
 import FoodCardDetailPage from './Pages/FoodCardDetailPage.jsx'
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
 function App() {

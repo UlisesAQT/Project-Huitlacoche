@@ -42,3 +42,14 @@ const DetailModal = ({ food }) => {
   );
 };
 export default FoodCardDetail;
+
+
+/* IN ORDER TO BUILD THE PRICE CHANGE CHART: 
+- Build an edit feature (so every time the price changes, it pushes it 
+    and can track the fluctuation)
+- Create  an Array (list) in Server Stuff (to simulate the backend) to just track price changes of all the items,
+    with one unique key
+- Connect that Array to a function and then use local state (because its not going to affect any other feature )
+    to update the price. (Style it)
+-  Create a way to be able to show if the price went up, down and shows it in price change and % change. 
+*/ 

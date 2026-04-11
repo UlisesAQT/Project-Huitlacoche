@@ -144,3 +144,7 @@ div.modal-header {
   justify-self: center;
   cursor: pointer;
 }
+
+.editBtn {
+  font-size: 1.2rem;
+}

@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import AddFoodModal from '../Components/addModal';
 
 
-const FoodList = () => {
-    const foodData = useSelector(state => state.food.food);
+const FoodList = ({foodData}) => {
+    //const foodData = useSelector(state => state.food.food);
     const [modalOpen, setModalOpen] = useState(false);
 
     return (
@@ -14,7 +14,7 @@ const FoodList = () => {
         <div className='foodGrid'> 
             {foodData.length > 0 ? (
                 foodData.map(item => (
-                    <FoodCard key={item.id} food={item} />
+                    <FoodCard key={item.id || item.name} food={item} />
                 ))
             ) : (
                 <p className="text-center">No food found. Checking the pantry...</p>

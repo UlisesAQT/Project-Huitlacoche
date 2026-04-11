@@ -102,6 +102,10 @@ const AddFoodModal = ({ modalOpen, setModalOpen }) => {
               <option value="dry">Dry</option>
               <option value="refrigerated">Refrigerated</option>
               <option value="frozen">Frozen</option>
+              <option value="beverage">Beverage</option>
+              <option value="alcohol">Alcohol</option>
+              <option value="paper goods">Paper Goods</option>
+              <option value="janitorial">Janitorial</option>
             </select>
           </label>
           <label className="form-field">  

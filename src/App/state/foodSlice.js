@@ -19,19 +19,7 @@ export const fetchFood = createAsyncThunk(
   },
 );
 
-// this is a trial for the modal add food
-// export const addFood = createAsyncThunk(
-//     'food/addFood',
-//     async(newFood, thunkApi) => {
-//         try{
-//             const response = await postMessage('http://localhost:3001/food');
-//             const data = await response.json();
-//             return data;
-//         } catch (error) {
-//             return thunkApi.rejectWithValue(error.message);
-//         }
-//     }
-// )
+
 
 // this is the state for modal adding food
 export const addFood = createAsyncThunk(
@@ -71,6 +59,15 @@ const foodSlice = createSlice({
         }
       }
     },
+    updateFood: (state, action) => { // this is for the FoodCard.jsx to update food
+      const index = state.food.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (index !==-1) {
+        state.food[index] = action.payload;
+      }
+    }
+
   },
   extraReducers: (builder) => {
     builder
@@ -99,4 +96,21 @@ const foodSlice = createSlice({
   },
 });
 export default foodSlice.reducer;
-export const { adjustQuantity } = foodSlice.actions;
+export const { adjustQuantity, updateFood } = foodSlice.actions;
+
+
+
+
+// this is a trial for the modal add food
+// export const addFood = createAsyncThunk(
+//     'food/addFood',
+//     async(newFood, thunkApi) => {
+//         try{
+//             const response = await postMessage('http://localhost:3001/food');
+//             const data = await response.json();
+//             return data;
+//         } catch (error) {
+//             return thunkApi.rejectWithValue(error.message);
+//         }
+//     }
+// )
