@@ -8,7 +8,7 @@ import { updateFood } from "../../App/state/foodSlice";
 
 
 
-const FoodCard = ({ food }) => {
+const FoodCard = ({ food, edit, onDelete }) => {
   const { id, name, quantity, category, cost, brand } = food;
   const [editing, setEditing] = useState(false);
   const dispatch = useDispatch();
@@ -66,7 +66,7 @@ const handleCancel = () => {
  
   return (
     <>
-    {editing ? (
+    {editing ? ( // this is the editing view
       <div className="food-item">
         <div className="food-info">
           <input
@@ -127,17 +127,18 @@ const handleCancel = () => {
             }}
           />
             
-
-            <button onClick={handleSave}
-            >Save</button>
-
+          <div className='btnGroup'>
+            <button onClick={handleSave} >Save</button>
             <button onClick={handleCancel}>Cancel</button>
+          </div>
+            
 
 
         </div>
       </div>
-    ): (
+    ): ( // this is the normal non editing view
        <div className="food_item">
+        {edit && <button onClick={() => onDelete(id)}>X</button>}
       <Link to={`/directory/${id}`} className="text-decoration-none text-dark">
         <div className="food-info">
           <h3 className="food-name ms-5">{name}</h3>
@@ -152,15 +153,15 @@ const handleCancel = () => {
           </p>
         </div>
       </Link>
-      <p className="ms-4">
-        <button onClick={() => handleQuantityChange(-1)}>
+      <div className=" quantityRow ms-2">
+        <button className="quantityBtn" onClick={() => handleQuantityChange(-1)}>
           -
         </button>
         <strong> Quantity:</strong> {quantity}
-        <button onClick={() => handleQuantityChange(1)}>
+        <button className="quantityBtn" onClick={() => handleQuantityChange(1)}>
           +
         </button>
-      </p>
+      </div>
         <div className="editBtn">
           <button onClick={() => {setEditableFood({ 
             name,
