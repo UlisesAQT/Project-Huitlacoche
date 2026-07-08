@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import FoodCard from './Food/foodCard';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import AddFoodModal from '../Components/addModal';
+import { updateFood } from '../App/state/foodSlice';
 
 
 
@@ -13,6 +14,7 @@ const FoodList = ({foodData}) => {
     const [editMode, setEditMode] = useState(false);
     //this makes a copy of the inventory and when finished it compares it and adjusts accordingly
     const [tempInventory, setTempInventory] = useState(foodData);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setTempInventory(foodData)
@@ -27,11 +29,19 @@ const FoodList = ({foodData}) => {
         setEditMode(false)
     };
     const handleSave = () => {
-        setEditMode(false) // i have to write the push for this 
+        tempInventory.forEach(item => {
+            dispatch(updateFood(item))
+        });
+        setEditMode(false);
     }
     const handleDelete = (id) => {
         setTempInventory(tempInventory.filter(item => item.id != id ))
     }
+    const handleUpdate = (updatedFood) => {
+        setTempInventory(tempInventory.map(item => 
+            item.id === updatedFood.id ? updatedFood : item
+        ));
+    };
 
 
 
@@ -60,14 +70,11 @@ const FoodList = ({foodData}) => {
     </div>
 
 
-        {/* {!editMode && <button onClick={handleEditMode}>Edit </button>}
-        {editMode && <button onClick={handleSave}>Save</button>}
-        {editMode && <button onClick={handleCancel}>Cancel</button>}  */}
 
         <div className='foodGrid'> 
             {tempInventory.length > 0 ? (
                 tempInventory.map(item => (
-                    <FoodCard key={item.id || item.name} food={item} edit={editMode} onDelete={handleDelete} />
+                    <FoodCard key={item.id || item.name} food={item} edit={editMode} onDelete={handleDelete} onSave={handleSave} onCancel={handleCancel} onUpdate={handleUpdate} />
                 ))
             ) : (
                 <p className="text-center">No food found. Checking the pantry...</p>

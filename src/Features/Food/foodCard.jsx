@@ -3,12 +3,12 @@ import { fetchFood, adjustQuantity } from "../../App/state/foodSlice";
 import { nanoid } from "@reduxjs/toolkit";
 import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { updateFood } from "../../App/state/foodSlice";
 
 
 
-const FoodCard = ({ food, edit, onDelete }) => {
+const FoodCard = ({ food, edit, onDelete, onUpdate }) => {
   const { id, name, quantity, category, cost, brand } = food;
   const [editing, setEditing] = useState(false);
   const dispatch = useDispatch();
@@ -20,6 +20,15 @@ const [ editableFood, setEditableFood] = useState({
   quantity
 });
 
+//Im adding this because of a bug i found when clicking the pencil icon, even if i hit cancel it saves the edits & useRef will fix this
+const originalFood = useRef({name, category, cost, brand, quantity}); 
+
+
+useEffect(() => {
+  if (edit) {
+    setEditableFood({name, category, cost, brand, quantity})
+  }
+}, [edit]);
 
 const handleQuantityChange = (amount) => {
   const newQuantity =quantity + amount;
@@ -52,33 +61,37 @@ const handleSave = () => {
 
 }
 const handleCancel = () => {
-  setEditableFood({
-    name,
-    category,
-    cost,
-    brand,
-    quantity
-  });
-
+  setEditableFood(originalFood.current);
+  onUpdate({...food, ...originalFood.current})
   setEditing(false);
 };
 
  
   return (
+    //This is the editing view
     <>
-    {editing ? ( // this is the editing view
+    {( edit || editing) ? ( // the reason why there is edd and editing is because, edit is for the toolbar and editing is the pencil edit(card)
       <div className="food-item">
+        {edit && <button onClick={() => onDelete(id)}>X</button>}
         <div className="food-info">
           <input
             type="text"
             value={editableFood.name}
-            onChange={(e)=> setEditableFood({... editableFood, name: e.target.value})
-            }/>
+            onChange={(e) => {
+              const updated = {...editableFood, name: e.target.value};
+              setEditableFood(updated);
+              onUpdate({...food, ...updated})
+            }}
+            />
 
             <select
               name="category"
               value={editableFood.category}
-              onChange={(e) => setEditableFood({... editableFood, category: e.target.value})
+              onChange={(e) => {
+                const updated = {...editableFood, category: e.target.value};
+                setEditableFood(updated);
+                onUpdate({...food, ...updated});
+              }
             }>
               <option value="dry">Dry</option>
               <option value="refrigerated">Refrigerated</option>
@@ -97,19 +110,22 @@ const handleCancel = () => {
             onChange={(e) => {
               const value = Number(e.target.value);
               if (value < 0) return;
-              setEditableFood({
-                ...editableFood, cost: Number(e.target.value)
-              })
+              const updated = { ...editableFood, cost: value };
+
+              setEditableFood(updated);
+              onUpdate({...food, ...updated})
             }}
-            
             />
 
             <input 
             type="text"
             value={editableFood.brand}
-            onChange={(e) => setEditableFood({
-              ... editableFood, brand: e.target.value
-            })}
+            onChange={
+              (e) => {
+                const updated = { ...editableFood, brand: e.target.value };
+                setEditableFood(updated);
+                onUpdate({ ...food, ...updated });
+              }}
             />
 
             <input
@@ -119,18 +135,17 @@ const handleCancel = () => {
             onChange={(e) => {
               const value = Number(e.target.value);
               if (value < 0) return;
-
-              setEditableFood({
-                ...editableFood,
-                quantity: value
-              });
+              const updated = { ...editableFood, quantity: value };
+              setEditableFood(updated);
+              onUpdate({ ...food, ...updated });
             }}
           />
-            
+            {editing && (
           <div className='btnGroup'>
             <button onClick={handleSave} >Save</button>
             <button onClick={handleCancel}>Cancel</button>
           </div>
+            )}
             
 
 
@@ -138,7 +153,6 @@ const handleCancel = () => {
       </div>
     ): ( // this is the normal non editing view
        <div className="food_item">
-        {edit && <button onClick={() => onDelete(id)}>X</button>}
       <Link to={`/directory/${id}`} className="text-decoration-none text-dark">
         <div className="food-info">
           <h3 className="food-name ms-5">{name}</h3>
@@ -163,7 +177,10 @@ const handleCancel = () => {
         </button>
       </div>
         <div className="editBtn">
-          <button onClick={() => {setEditableFood({ 
+          <button onClick={() => {
+            originalFood.current = {name, category, cost, brand, quantity}; //references the useRef
+
+            setEditableFood({ 
             name,
             category,
             cost,

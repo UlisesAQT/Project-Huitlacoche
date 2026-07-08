@@ -23,8 +23,8 @@ console.log("Food Data: ", foodData);
 console.log('Filtered: ', filteredFood);
 
     return(
-        <div className="mt-4">
-          <h2 className="text-center mt-1 mb-3"> Food inventory </h2>
+        <div>
+          <h2 className="textTop"> Food inventory </h2>
           <CategoryFilter 
           categories={categories}
           selectedCategory={selectedCategory}
