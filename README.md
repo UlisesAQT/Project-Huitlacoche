@@ -31,7 +31,6 @@ FontEnd:
   Redux Toolkit
   React Router DOM
   Reactstrap
-  Bootstrap 5
   JavaScript (ES6+)
 
 State Management:
