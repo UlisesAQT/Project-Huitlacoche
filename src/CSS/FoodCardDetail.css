@@ -1,0 +1,41 @@
+.detail-modal {
+   max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.detail-modal .food-name {
+  margin-bottom: 1.5rem;
+}
+
+.detail-modal .detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 2rem;
+  text-align: center;
+}
+
+.detail-edit {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.detail-edit .btnGroup {
+  position: absolute;
+  top: 1rem;
+  left: 40rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.detail-modal .editBtn {
+  position: absolute;
+  top: 10rem;
+  left: 75rem;
+}

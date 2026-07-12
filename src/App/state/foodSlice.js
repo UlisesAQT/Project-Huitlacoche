@@ -101,16 +101,3 @@ export const { adjustQuantity, updateFood } = foodSlice.actions;
 
 
 
-// this is a trial for the modal add food
-// export const addFood = createAsyncThunk(
-//     'food/addFood',
-//     async(newFood, thunkApi) => {
-//         try{
-//             const response = await postMessage('http://localhost:3001/food');
-//             const data = await response.json();
-//             return data;
-//         } catch (error) {
-//             return thunkApi.rejectWithValue(error.message);
-//         }
-//     }
-// )

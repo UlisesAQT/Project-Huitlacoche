@@ -70,10 +70,10 @@ const AddFoodModal = ({ modalOpen, setModalOpen }) => {
           <input name="name" value={formData.name} onChange={handleChange} />
         </label>
         <label>Quantity:
-          <input name="quantity" type="number" min="0" value={formData.quantity} onChange={handleChange} />
+          <input name="quantity" type="number" min="0" step ="0.01" value={formData.quantity} onChange={handleChange} />
         </label>
         <label>Cost:
-          <input name="cost" type="number" min="0" value={formData.cost} onChange={handleChange} />
+          <input name="cost" type="number" min="0" step ="0.01" value={formData.cost} onChange={handleChange} />
         </label>
         <label>Brand:
           <input name="brand" value={formData.brand} onChange={handleChange} />

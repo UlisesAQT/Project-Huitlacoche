@@ -1,10 +1,9 @@
 import { useDispatch } from "react-redux";
-import { fetchFood, adjustQuantity } from "../../App/state/foodSlice";
+import { fetchFood, adjustQuantity, updateFood } from "../../App/state/foodSlice";
 import { nanoid } from "@reduxjs/toolkit";
 import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { updateFood } from "../../App/state/foodSlice";
 
 
 
@@ -20,8 +19,6 @@ const [ editableFood, setEditableFood] = useState({
   quantity
 });
 
-//Im adding this because of a bug i found when clicking the pencil icon, even if i hit cancel it saves the edits & useRef will fix this
-const originalFood = useRef({name, category, cost, brand, quantity}); 
 
 
 useEffect(() => {
@@ -41,36 +38,10 @@ if (newQuantity < 0) return;
 }
 
 
-
-const handleSave = () => {
-  let updatedPriceHistory = [...(food.priceHistory || [])];
-  if (food.cost !== editableFood.cost) {
-    updatedPriceHistory.push({
-      price: editableFood.cost,
-      date: new Date().toLocaleDateString(),
-    })
-  }
-  const updatedFood = {
-    ...food,
-    ...editableFood,
-    priceHistory: updatedPriceHistory,
-  };
-
-  dispatch(updateFood(updatedFood));
-  setEditing(false);
-
-}
-const handleCancel = () => {
-  setEditableFood(originalFood.current);
-  onUpdate({...food, ...originalFood.current})
-  setEditing(false);
-};
-
- 
   return (
     //This is the editing view
     <>
-    {( edit || editing) ? ( // the reason why there is edd and editing is because, edit is for the toolbar and editing is the pencil edit(card)
+    { edit  ? ( // the reason why there is edd and editing is because, edit is for the toolbar and editing is the pencil edit(card)
       <div className="food-item">
         {edit && <button onClick={() => onDelete(id)}>X</button>}
         <div className="food-info">
@@ -140,15 +111,6 @@ const handleCancel = () => {
               onUpdate({ ...food, ...updated });
             }}
           />
-            {editing && (
-          <div className='btnGroup'>
-            <button onClick={handleSave} >Save</button>
-            <button onClick={handleCancel}>Cancel</button>
-          </div>
-            )}
-            
-
-
         </div>
       </div>
     ): ( // this is the normal non editing view
@@ -176,23 +138,6 @@ const handleCancel = () => {
           +
         </button>
       </div>
-        <div className="editBtn">
-          <button onClick={() => {
-            originalFood.current = {name, category, cost, brand, quantity}; //references the useRef
-
-            setEditableFood({ 
-            name,
-            category,
-            cost,
-            brand,
-            quantity
-          });
-          setEditing(true); 
-          }}>
-            <i className="bi bi-pencil"></i>
-            </button>
-      </div>
-
     </div>
       
     )}
@@ -203,19 +148,3 @@ const handleCancel = () => {
 
 export default FoodCard;
 
-// const creatingFood = () => { // might have to fix this because this creates food not adds just one
-//     dispatch(addFood({
-//         name:food.name,
-//         quantity: userQuantity || 1,
-//         category: food.category,
-//         brand: food.brand,
-//         cost: food.cost
-//     }));
-// }
-
-// const handleRemoveFood = () => {
-//     dispatch(removeFood({
-//         id: food.id,
-//         amount: 1
-//     }));
-// }
