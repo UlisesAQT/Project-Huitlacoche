@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  position: relative;
 }
 
 .detail-modal .food-name {
@@ -27,15 +28,14 @@
 }
 
 .detail-edit .btnGroup {
-  position: absolute;
-  top: 1rem;
-  left: 40rem;
   display: flex;
   gap: 0.5rem;
+  justify-content: center; 
+  margin-top: 1rem;
 }
 
 .detail-modal .editBtn {
   position: absolute;
-  top: 10rem;
-  left: 75rem;
+  top: 5%;
+  left: 5%;
 }
