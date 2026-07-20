@@ -4,11 +4,11 @@ import { nanoid } from "@reduxjs/toolkit";
 import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-
+import {UNITS} from "../../Components/units"
 
 
 const FoodCard = ({ food, edit, onDelete, onUpdate }) => {
-  const { id, name, quantity, category, cost, brand } = food;
+  const { id, name, quantity, category, cost, brand, unit } = food;
   const [editing, setEditing] = useState(false);
   const dispatch = useDispatch();
 const [ editableFood, setEditableFood] = useState({
@@ -133,7 +133,7 @@ if (newQuantity < 0) return;
         <button className="quantityBtn" onClick={() => handleQuantityChange(-1)}>
           -
         </button>
-        <strong> Quantity:</strong> {quantity}
+        <strong> {UNITS.find((u) => u.value === unit)?.label || "Quantity"}:</strong> {quantity}
         <button className="quantityBtn" onClick={() => handleQuantityChange(1)}>
           +
         </button>

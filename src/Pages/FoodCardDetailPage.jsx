@@ -3,6 +3,7 @@ import { useSelector,useDispatch } from "react-redux";
 import { useState, useRef } from "react";
 import { updateFood } from "../App/state/foodSlice";
 import '../CSS/FoodCardDetail.css'
+import { UNITS } from "../Components/units";
 
 const FoodCardDetail = () => {
   const { foodCardId } = useParams();
@@ -21,10 +22,10 @@ const FoodCardDetail = () => {
 
 const DetailModal = ({ food }) => {
   const dispatch = useDispatch();
-  const { name, quantity, category, cost, brand } = food;
+  const { name, quantity, category, cost, brand, unit, storageDate } = food;
   const [editing, setEditing] = useState(false);
-  const [editableFood, setEditableFood] = useState({name, category, cost, brand, quantity});
-  const originalFood = useRef({name, category, cost, brand, quantity});
+  const [editableFood, setEditableFood] = useState({name, category, cost, brand, quantity, unit, storageDate});
+  const originalFood = useRef({name, category, cost, brand, quantity, unit, storageDate});
 
 
 const handleSave = () => {
@@ -40,14 +41,20 @@ const handleSave = () => {
     setEditing(false);
   };
 
+const handleQuantityChange = (amount) => {
+  const newQuantity = quantity + amount;
+  if (newQuantity < 0) return;
+  dispatch(updateFood({ ...food, quantity: newQuantity}));
+}
+
 const handleCancel = () => {
     setEditableFood(originalFood.current);
     setEditing(false);
   };
 
   const startEditing = () => {
-    originalFood.current = {name, category, cost, brand, quantity};
-    setEditableFood({name, category, cost, brand, quantity})
+    originalFood.current = {name, category, cost, brand, quantity, unit, storageDate};
+    setEditableFood({name, category, cost, brand, quantity, unit, storageDate})
     setEditing(true);
   }
 
@@ -97,6 +104,21 @@ const handleCancel = () => {
             setEditableFood({ ...editableFood, quantity: value });
           }}
         />
+        <select
+        value={editableFood.unit}
+        onChange={(e) => setEditableFood({... editableFood, unit: e.target.value})}
+        >
+          {UNITS.map((u) => (
+            <option key={u.value} value={u.value} >{u.label}</option>
+          ))}
+        </select>
+        {(editableFood.category === "frozen" || editableFood.category === "refrigerated") && (
+          <input 
+          type="date"
+          value={editableFood.storageDate}
+          onChange={(e) => setEditableFood({...editableFood, storageDate: e.target.value})}
+          />
+        )}
         <div className="btnGroup">
           <button onClick={handleSave}>Save</button>
           <button onClick={handleCancel}>Cancel</button>
@@ -122,9 +144,20 @@ const handleCancel = () => {
       <p>
         <strong>Cost:</strong> {cost}
       </p>
-      <p>
-        <strong>Quantity:</strong> {quantity}
+
+      <p className="quantityRow">
+          <strong>{UNITS.find((u) => u.value === unit)?.label || "Quantity"}:</strong>
+          <button className="quantityBtn" onClick={() => handleQuantityChange(-1)}>-</button>
+         {quantity}
+          <button className="quantityBtn" onClick={() => handleQuantityChange(1)}>+</button>
       </p>
+        {(category === "frozen" || category=== "refrigerated") && storageDate && (
+          <p>
+            <strong>{category === "frozen" ? "Frozen Since:" : "Refrigerated Since:"}</strong> {storageDate}
+          </p>
+        )}
+
+
      </div>
      <button className="editBtn" onClick={startEditing}>
         <i className="bi bi-pencil"></i>

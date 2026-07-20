@@ -2,6 +2,7 @@ import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addFood } from "../App/state/foodSlice";
+import { UNITS } from "./units";
 
 
 const AddFoodModal = ({ modalOpen, setModalOpen }) => {
@@ -12,6 +13,8 @@ const AddFoodModal = ({ modalOpen, setModalOpen }) => {
     cost: '',
     brand: "",
     category: "dry",
+    unit: "units",
+    storageDate: "",
   };
 
   const [formError, setFormError] = useState('')
@@ -22,6 +25,8 @@ const AddFoodModal = ({ modalOpen, setModalOpen }) => {
     cost: '',
     brand: "",
     category: "dry",
+    unit: "units",
+    storageDate: "",
   });
 
   const handleSubmit = (e) => {
@@ -72,6 +77,13 @@ const AddFoodModal = ({ modalOpen, setModalOpen }) => {
         <label>Quantity:
           <input name="quantity" type="number" min="0" step ="0.01" value={formData.quantity} onChange={handleChange} />
         </label>
+        <label>Unit:
+          <select name="unit" value={formData.unit} onChange={handleChange}>
+            {UNITS.map((u) => (
+              <option key={u.value} value={u.value}>{u.label}</option>
+            ))}
+          </select>
+        </label>
         <label>Cost:
           <input name="cost" type="number" min="0" step ="0.01" value={formData.cost} onChange={handleChange} />
         </label>
@@ -89,6 +101,17 @@ const AddFoodModal = ({ modalOpen, setModalOpen }) => {
             <option value="janitorial">Janitorial</option>
           </select>
         </label>
+        {(formData.category === "frozen" || formData.category === "refrigerated") && (
+          <label>
+            {formData.category === "frozen" ? "Frozen Since:" : "Refrigerated Since:"}
+            <input 
+            name="storageDate"
+            type="date"
+            value={formData.storageDate}
+            onChange={handleChange}
+            />
+          </label>
+        )}
         <button type="submit" className="submit-btn">Submit</button>
       </form>
       <button onClick={handleCancel}>Cancel</button>
