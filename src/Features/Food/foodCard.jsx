@@ -41,7 +41,7 @@ if (newQuantity < 0) return;
   return (
     //This is the editing view
     <>
-    { edit  ? ( // the reason why there is edd and editing is because, edit is for the toolbar and editing is the pencil edit(card)
+    { edit  ? ( // the reason why there is edit and editing is because, edit is for the toolbar and editing is the pencil edit(card)
       <div className="food-item">
         {edit && <button onClick={() => onDelete(id)}>X</button>}
         <div className="food-info">

@@ -35,7 +35,7 @@ const FoodList = ({foodData}) => {
         setEditMode(false);
     }
     const handleDelete = (id) => {
-        setTempInventory(tempInventory.filter(item => item.id != id ))
+        setTempInventory(tempInventory.filter(item => item.id !== id ))
     }
     const handleUpdate = (updatedFood) => {
         setTempInventory(tempInventory.map(item => 
