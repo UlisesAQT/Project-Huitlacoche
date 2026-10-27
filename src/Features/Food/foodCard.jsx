@@ -1,7 +1,6 @@
 import { useDispatch } from "react-redux";
 import { fetchFood, adjustQuantity, updateFood } from "../../App/state/foodSlice";
 import { nanoid } from "@reduxjs/toolkit";
-import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import {UNITS} from "../../Components/units"

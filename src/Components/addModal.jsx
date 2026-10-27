@@ -1,4 +1,3 @@
-import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addFood } from "../App/state/foodSlice";
