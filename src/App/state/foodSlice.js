@@ -46,6 +46,31 @@ export const addFood = createAsyncThunk(
   },
 );
 
+// this saves an edited food item to the server so the change survives a page refresh.
+// it has the same name the old reducer had, so the components that dispatch updateFood didn't need to change
+export const updateFood = createAsyncThunk(
+  "food/updateFood",
+  async (updatedFood, thunkApi) => {
+    try {
+      // the id in the URL tells the server which item to replace
+      const response = await fetch(`http://localhost:3001/food/${updatedFood.id}`, {
+        // PUT replaces the whole item, which works because we always send the full object
+        method: "PUT",
+        body: JSON.stringify(updatedFood),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Couldn't save changes (status ${response.status})`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  },
+);
+
 const foodSlice = createSlice({
   name: "food",
   initialState,
@@ -60,15 +85,6 @@ const foodSlice = createSlice({
         if (nextValue >= 0) {
           itemToUpdate.quantity = nextValue;
         }
-      }
-    },
-    updateFood: (state, action) => {
-      // this is for the FoodCard.jsx to update food
-      const index = state.food.findIndex(
-        (item) => item.id === action.payload.id,
-      );
-      if (index !== -1) {
-        state.food[index] = action.payload;
       }
     },
   },
@@ -95,8 +111,21 @@ const foodSlice = createSlice({
       .addCase(addFood.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+      // no pending case on purpose: setting isLoading here would flash a spinner on every +/- click
+      .addCase(updateFood.fulfilled, (state, action) => {
+        // only update Redux after the server says the save worked, so the two never disagree
+        const index = state.food.findIndex(
+          (item) => item.id === action.payload.id,
+        );
+        if (index !== -1) {
+          state.food[index] = action.payload;
+        }
+      })
+      .addCase(updateFood.rejected, (state, action) => {
+        state.error = action.payload;
       });
   },
 });
 export default foodSlice.reducer;
-export const { adjustQuantity, updateFood } = foodSlice.actions;
+export const { adjustQuantity } = foodSlice.actions;
