@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import FoodCard from './Food/foodCard';
 import { useSelector, useDispatch } from 'react-redux';
 import AddFoodModal from '../Components/addModal';
-import { updateFood } from '../App/state/foodSlice';
+import { updateFood, removeFood } from '../App/state/foodSlice';
 
 
 
@@ -29,6 +29,16 @@ const FoodList = ({foodData}) => {
         setEditMode(false)
     };
     const handleSave = () => {
+        // put every id we kept into a Set, so checking "was this kept?" is O(1) instead of searching the whole list
+        const keptIds = new Set(tempInventory.map(item => item.id));
+
+        // anything in the real list that isn't in the kept list was deleted, so tell the server
+        foodData.forEach(item => {
+            if (!keptIds.has(item.id)) {
+                dispatch(removeFood(item.id));
+            }
+        });
+
         tempInventory.forEach(item => {
             dispatch(updateFood(item))
         });
